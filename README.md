@@ -4,7 +4,7 @@ Unreal Engine 4.20+ plugin that allows you to use UMG slider with multiple targe
 
 **How to use it?**
 
-1) Git clone this repo into Plugins folder of your (code) project. 
+1) Git clone this repo into Plugins folder of your (code) project and recompile the project.
 2) Add Multi Handle Slider widget to your UMG widget
 3) Call SetUpPlayerPawn on Multi Handle Slider widget
 4) Call AddTargetActor or AddTargetLocation on Multi Handle Slider widget to set up slider targets
