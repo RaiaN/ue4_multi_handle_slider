@@ -1,3 +1,5 @@
+<h2> Multi Handle Slider </h2>
+
 Unreal Engine 4.20+ plugin that allows you to use UMG slider with multiple targets to track against player pawn.
 
 **How to use it?**
