@@ -1,3 +1,3 @@
-This plugin allows one to use slider widget that supports multiple handles.
+This plugin add slider with support of multiple handles. It is build on top of default slider widget. 
 
-You can target actor or target location to track against player position.
+You can add target actor or target location to track against player position. 
