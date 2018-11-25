@@ -19,7 +19,7 @@ DECLARE_LOG_CATEGORY_EXTERN(MultiHandleSliderWidget, Log, All);
 
 
 UCLASS(meta = (DisplayName = "Multi Handle Slider"))
-class MESHWIDGET_API UMultiHandleSliderWidget: public UWidget
+class UMultiHandleSliderWidget: public UWidget
 {
 	GENERATED_UCLASS_BODY()
 
