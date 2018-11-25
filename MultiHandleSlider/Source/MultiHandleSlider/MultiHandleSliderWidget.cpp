@@ -8,7 +8,9 @@
 DEFINE_LOG_CATEGORY(MultiHandleSliderWidget);
 
 UMultiHandleSliderWidget::UMultiHandleSliderWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-{}
+{
+    SliderBarColor = FLinearColor(0, 0, 0, 1);
+}
 
 void UMultiHandleSliderWidget::SetUpPlayerPawn(AActor* InPlayerPawn)
 {
@@ -135,7 +137,6 @@ void UMultiHandleSliderWidget::SynchronizeProperties()
 	Super::SynchronizeProperties();
 
 	MultiHandleSlider->SetSliderBarColor(SliderBarColor);
-	MultiHandleSlider->SetSliderHandleColor(SliderHandleColor);
 	MultiHandleSlider->SetTargetTypesDataTable(TargetTypesDataTable);
 }
 

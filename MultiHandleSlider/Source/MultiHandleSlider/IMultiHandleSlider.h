@@ -23,7 +23,7 @@ public:
 	 */
 	static inline IMultiHandleSlider& Get()
 	{
-		return FModuleManager::LoadModuleChecked< IMultiHandleSlider >( "IMultiHandleSlider" );
+		return FModuleManager::LoadModuleChecked< IMultiHandleSlider >( "MultiHandleSlider" );
 	}
 
 	/**
@@ -33,7 +33,7 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded( "IMultiHandleSlider" );
+		return FModuleManager::Get().IsModuleLoaded( "MultiHandleSlider" );
 	}
 };
 

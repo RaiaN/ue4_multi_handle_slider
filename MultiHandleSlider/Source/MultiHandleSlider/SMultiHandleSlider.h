@@ -24,7 +24,6 @@ public:
 	SLATE_BEGIN_ARGS(SMultiHandleSlider)
 		: _IndentHandle(true)
 		, _SliderBarColor(FLinearColor::White)
-		, _SliderHandleColor(FLinearColor::White)
 		, _Style(&FCoreStyle::Get().GetWidgetStyle<FSliderStyle>("Slider"))
 	{ }
 
@@ -33,9 +32,6 @@ public:
 
 		/** The color to draw the slider bar in. */
 		SLATE_ATTRIBUTE(FSlateColor, SliderBarColor)
-
-		/** The color to draw the slider handle in. */
-		SLATE_ATTRIBUTE(FSlateColor, SliderHandleColor)
 
 		/** The style used to draw the slider. */
 		SLATE_STYLE_ARGUMENT(FSliderStyle, Style)
@@ -54,9 +50,6 @@ public:
 
 	/** Set the SliderBarColor attribute */
 	void SetSliderBarColor(FSlateColor InSliderBarColor);
-
-	/** Set the SliderHandleColor attribute */
-	void SetSliderHandleColor(FSlateColor InSliderHandleColor);
 
 	void SetTargetTypesDataTable(UDataTable* InTargetTypesDataTable);
 
@@ -83,9 +76,6 @@ protected:
 
 	// Holds the color of the slider bar.
 	TAttribute< FSlateColor > SliderBarColor;
-
-	// Holds the color of the slider handle.
-	TAttribute< FSlateColor > SliderHandleColor;
 
 private:
 	TMap<FString, FHandleInfo> HandlesMap;

@@ -56,9 +56,6 @@ public:
 	FLinearColor SliderBarColor;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Appearance)
-	FLinearColor SliderHandleColor;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Appearance)
 	UDataTable* TargetTypesDataTable;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Appearance)

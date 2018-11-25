@@ -12,7 +12,6 @@ void SMultiHandleSlider::Construct(const SMultiHandleSlider::FArguments& InDecla
 
 	IndentHandle = InDeclaration._IndentHandle;
 	SliderBarColor = InDeclaration._SliderBarColor;
-	SliderHandleColor = InDeclaration._SliderHandleColor;
 }
 
 int32 SMultiHandleSlider::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
@@ -108,11 +107,6 @@ void SMultiHandleSlider::SetIndentHandle(const TAttribute<bool>& InIndentHandle)
 void SMultiHandleSlider::SetSliderBarColor(FSlateColor InSliderBarColor)
 {
 	SliderBarColor = InSliderBarColor;
-}
-
-void SMultiHandleSlider::SetSliderHandleColor(FSlateColor InSliderHandleColor)
-{
-	SliderHandleColor = InSliderHandleColor;
 }
 
 void SMultiHandleSlider::SetTargetTypesDataTable(UDataTable* InTargetTypesDataTable)
