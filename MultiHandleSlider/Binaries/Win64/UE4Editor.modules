@@ -2,6 +2,6 @@
 	"BuildId": "4212847",
 	"Modules": 
 	{
-		"MeshWidget": "UE4Editor-MeshWidget.dll"
+		"MultiHandleSlider": "UE4Editor-MultiHandleSlider.dll"
 	}
 }

@@ -3,9 +3,9 @@
 	"Version" : 1,
 	"VersionName" : "1.0",
 	"FriendlyName" : "Multi Handle Slider",
-	"Description" : "Render UMG&Slate widgets on abitrary static mesh surface. For UE4.13.",
+	"Description" : "Slider with multi handle support",
 	"Category" : "Widgets",
-	"CreatedBy" : "Santtu Keskinen",
+	"CreatedBy" : "Peter Leontev",
 	"CreatedByURL" : "",
 	"DocsURL" : "",
 	"MarketplaceURL" : "",
@@ -17,7 +17,7 @@
 	"Modules" :
 	[
 		{
-			"Name" : "MeshWidget",
+			"Name" : "MultiHandleSlider",
 			"Type" : "Runtime",
 			"LoadingPhase" : "Default"
 		}
