@@ -1,5 +1,3 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -31,6 +29,8 @@ public:
 	float HandlePosition;
 	FName TargetType;
 };
+
+class AActor;
 
 
 USTRUCT()

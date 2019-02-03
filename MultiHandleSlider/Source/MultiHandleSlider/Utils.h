@@ -1,6 +1,6 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 #pragma once
+
+#include "CoreMinimal.h"
 
 namespace UtilityFunctions
 {

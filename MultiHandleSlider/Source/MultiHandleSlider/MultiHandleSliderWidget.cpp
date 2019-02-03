@@ -1,8 +1,6 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
-#pragma once
-
 #include "MultiHandleSliderWidget.h"
+#include "Engine/DataTable.h"
+#include "GameFramework/Actor.h"
 #include "Utils.h"
 
 DEFINE_LOG_CATEGORY(MultiHandleSliderWidget);
@@ -10,11 +8,14 @@ DEFINE_LOG_CATEGORY(MultiHandleSliderWidget);
 UMultiHandleSliderWidget::UMultiHandleSliderWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
     SliderBarColor = FLinearColor(0, 0, 0, 1);
+
+    MinAngle = -100.0f;
+    MaxAngle = 100.0f;
 }
 
-void UMultiHandleSliderWidget::SetUpPlayerPawn(AActor* InPlayerPawn)
+void UMultiHandleSliderWidget::SetUpPlayerActor(AActor* InPlayerActor)
 {
-	PlayerPawn = InPlayerPawn;
+    PlayerActor = InPlayerActor;
 }
 
 void UMultiHandleSliderWidget::AddActorAsTarget(const FString& TargetID, const FName& TargetType, AActor* TargetActor)
@@ -28,7 +29,8 @@ void UMultiHandleSliderWidget::AddActorAsTarget(const FString& TargetID, const F
 		TargetActors.Add(TargetID, ActorInfo);
 
 		MultiHandleSlider->AddObjective(TargetID, TargetType);
-		SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		
+        UpdateVisibility();
 	}	
 }
 
@@ -41,7 +43,8 @@ void UMultiHandleSliderWidget::AddLocationAsTarget(const FString& TargetID, cons
 	TargetLocations.Add(TargetID, LocationInfo);
 
 	MultiHandleSlider->AddObjective(TargetID, TargetType);
-	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	
+    UpdateVisibility();
 }
 
 void UMultiHandleSliderWidget::RemoveTarget(const FString& TargetID)
@@ -55,23 +58,22 @@ void UMultiHandleSliderWidget::RemoveTarget(const FString& TargetID)
 		TargetLocations.Remove(TargetID);
 	}
 	MultiHandleSlider->RemoveObjective(TargetID);
-
-	if (TargetActors.Num() + TargetLocations.Num() == 0)
-	{
-		SetVisibility(ESlateVisibility::Hidden);
-	}
 }
 
 
 void UMultiHandleSliderWidget::RemoveAllTargets()
 {
-	TargetActors.Reset();
-	TargetLocations.Reset();
+	TargetActors.Empty();
+	TargetLocations.Empty();
 	MultiHandleSlider->RemoveAllObjectives();
 }
 
-UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
-int UMultiHandleSliderWidget::CountTargetTypes(const FName& TargetType)
+bool UMultiHandleSliderWidget::ShouldBeVisible_Implementation() const
+{
+    return TargetActors.Num() > 0 || TargetLocations.Num() > 0;
+}
+
+int32 UMultiHandleSliderWidget::CountTargetTypes(const FName& TargetType) const
 {
 	int32 ResultCnt = 0;
 
@@ -96,6 +98,7 @@ void UMultiHandleSliderWidget::Tick()
 {
 	TArray<FTargetActorInfo> TargetActorsInfo;
 	TargetActors.GenerateValueArray(TargetActorsInfo);
+
 	for (const FTargetActorInfo& TargetActorInfo : TargetActorsInfo)
 	{
 		if (IsValid(TargetActorInfo.TargetActor))
@@ -107,6 +110,7 @@ void UMultiHandleSliderWidget::Tick()
 
 	TArray<FTargetLocationInfo> TargetLocationsInfo;
 	TargetLocations.GenerateValueArray(TargetLocationsInfo);
+
 	for (const FTargetLocationInfo& TargetLocationInfo : TargetLocationsInfo)
 	{
 		float HandlePosition = GetHandlePosition(TargetLocationInfo.TargetLocation);
@@ -114,15 +118,27 @@ void UMultiHandleSliderWidget::Tick()
 	}
 }
 
-float UMultiHandleSliderWidget::GetHandlePosition(const FVector& TargetPosition)
+void UMultiHandleSliderWidget::UpdateVisibility()
 {
-	if (!IsValid(PlayerPawn))
+    if (ShouldBeVisible())
+    {
+        SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+    }
+    else
+    {
+        SetVisibility(ESlateVisibility::Hidden);
+    }
+}
+
+float UMultiHandleSliderWidget::GetHandlePosition(const FVector& TargetPosition) const
+{
+	if (!IsValid(PlayerActor))
 	{
 		return 0.0f;
 	}
 
-	FVector PlayerControllerForwardVector = UtilityFunctions::GetForwardVectorFromRotator(PlayerPawn->GetInstigatorController()->GetControlRotation());
-	float Angle = UtilityFunctions::GetAngleBetweenVectors((TargetPosition - PlayerPawn->GetActorLocation()).GetSafeNormal(), PlayerControllerForwardVector);
+	const FVector PlayerControllerForwardVector = UtilityFunctions::GetForwardVectorFromRotator(PlayerActor->GetInstigatorController()->GetControlRotation());
+	const float Angle = UtilityFunctions::GetAngleBetweenVectors((TargetPosition - PlayerActor->GetActorLocation()).GetSafeNormal(), PlayerControllerForwardVector);
 	return FMath::GetMappedRangeValueClamped(FVector2D(MaxAngle, MinAngle), FVector2D(0, 1), Angle);
 }
 

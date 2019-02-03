@@ -1,5 +1,3 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 using UnrealBuildTool;
 
 public class MultiHandleSlider : ModuleRules

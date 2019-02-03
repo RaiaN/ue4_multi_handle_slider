@@ -1,5 +1,3 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 #include "SMultiHandleSlider.h"
 #include "Rendering/DrawElements.h"
 

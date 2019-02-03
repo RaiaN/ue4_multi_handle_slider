@@ -1,5 +1,3 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 #include "Utils.h"
 
 namespace UtilityFunctions

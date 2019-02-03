@@ -1,8 +1,7 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DataTable.h"
 #include "Misc/Attribute.h"
 #include "Input/Reply.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
@@ -13,6 +12,7 @@
 #include "Framework/SlateDelegates.h"
 #include "Widgets/SLeafWidget.h"
 #include "MultiHandleSliderStructures.h"
+#include "REndering/DrawElements.h" 
 
 class FPaintArgs;
 class FSlateWindowElementList;
@@ -75,7 +75,7 @@ protected:
 	TAttribute<bool> IndentHandle;
 
 	// Holds the color of the slider bar.
-	TAttribute< FSlateColor > SliderBarColor;
+	TAttribute<FSlateColor> SliderBarColor;
 
 private:
 	TMap<FString, FHandleInfo> HandlesMap;

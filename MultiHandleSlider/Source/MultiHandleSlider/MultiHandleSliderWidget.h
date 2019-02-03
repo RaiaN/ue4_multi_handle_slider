@@ -1,10 +1,9 @@
-// Copyright MultiHandleSlider by Peter Leontev
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/Widget.h"
 #include "UserWidget.h"
+#include "Containers/Map.h"
 #include "UObject/ObjectMacros.h"
 #include "Fonts/SlateFontInfo.h"
 #include "Layout/Margin.h"
@@ -15,7 +14,12 @@
 #include "SMultiHandleSlider.h"
 #include "MultiHandleSliderWidget.generated.h"
 
+
 DECLARE_LOG_CATEGORY_EXTERN(MultiHandleSliderWidget, Log, All);
+
+
+class AActor;
+class UDataTable;
 
 
 UCLASS(meta = (DisplayName = "Multi Handle Slider"))
@@ -25,7 +29,7 @@ class UMultiHandleSliderWidget: public UWidget
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
-	void SetUpPlayerPawn(AActor* InPlayerPawn);
+	void SetUpPlayerActor(AActor* InPlayerActor);
 
 	UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
 	void AddActorAsTarget(const FString& TargetID, const FName& TargetType, AActor* TargetActor);
@@ -39,8 +43,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
 	void RemoveAllTargets();
 
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    bool ShouldBeVisible() const;
+
 	UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
-	int CountTargetTypes(const FName& TargetType);
+	int32 CountTargetTypes(const FName& TargetType) const;
 
 	UFUNCTION(BlueprintCallable)
 	void Tick();
@@ -59,10 +66,10 @@ public:
 	UDataTable* TargetTypesDataTable;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Appearance)
-	float MinAngle = -100.0f;
+	float MinAngle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Appearance)
-	float MaxAngle = 100.0f;
+	float MaxAngle;
 	
 protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
@@ -71,13 +78,17 @@ protected:
 	TSharedPtr< SMultiHandleSlider > MultiHandleSlider;
 
 private:
-    float GetHandlePosition(const FVector& TargetPosition);
+    void UpdateVisibility();
+
+    float GetHandlePosition(const FVector& TargetPosition) const;
 
 private:
     UPROPERTY(Transient)
-    AActor* PlayerPawn;
+    AActor* PlayerActor;
 
+    UPROPERTY(Transient)
     TMap<FString, FTargetActorInfo> TargetActors;
 
+    UPROPERTY(Transient)
     TMap<FString, FTargetLocationInfo> TargetLocations;
 };
