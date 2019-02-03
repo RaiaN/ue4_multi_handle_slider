@@ -80,6 +80,6 @@ protected:
 private:
 	TMap<FString, FHandleInfo> HandlesMap;
 
-    UPROPERTY()
+    UPROPERTY(Transient)
 	UDataTable* TargetTypesDataTable;
 };
