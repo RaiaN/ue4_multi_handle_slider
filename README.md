@@ -10,7 +10,7 @@ Unreal Engine 4.20+ plugin that allows you to use UMG slider with multiple handl
 3) Select added Multi Handle Slider and set created DataTable.
 3) Call SetUpPlayerPawn on Multi Handle Slider widget.
 4) Call AddTargetActor or AddTargetLocation on Multi Handle Slider widget to set up slider targets.
-5) Call tick event on Multi Handle Slider widget to update targets positions.
+5) Call tick event on Multi Handle Slider widget to update positions of the targets.
 
 **What is it about?**
 
