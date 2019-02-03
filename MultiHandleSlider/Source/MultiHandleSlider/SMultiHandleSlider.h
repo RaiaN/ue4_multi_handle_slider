@@ -64,6 +64,10 @@ public:
 	void UpdateObjectiveHandlePosition(const FString& TargetID, float HandlePosition);
 	void RemoveObjective(const FString& TargetID);
 	void RemoveAllObjectives();
+    void ShowObjective(const FString& TargetID, bool bShow);
+    void ShowTargetTypes(const TArray<FName>& TargetTypes, bool bShow);
+    void ClearHiddenTargetTypes();
+
 	bool HasObjectives() const;
 
 protected:
@@ -78,8 +82,10 @@ protected:
 	TAttribute<FSlateColor> SliderBarColor;
 
 private:
+    UPROPERTY(Transient)
+    UDataTable* TargetTypesDataTable;
+
 	TMap<FString, FHandleInfo> HandlesMap;
 
-    UPROPERTY(Transient)
-	UDataTable* TargetTypesDataTable;
+    TArray<FName> HiddenTargetTypes;
 };

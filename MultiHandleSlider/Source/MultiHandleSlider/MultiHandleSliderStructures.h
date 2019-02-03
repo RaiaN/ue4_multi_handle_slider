@@ -16,7 +16,7 @@ public:
 	FSlateBrush SliderImage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Type Description")
-	int32 LayerIDOffset = 0;
+	int32 LayerID = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Target Type Description")
 	float PaddingTop = 0.0f;
@@ -28,6 +28,7 @@ struct FHandleInfo
 public:
 	float HandlePosition;
 	FName TargetType;
+    bool bShow;
 };
 
 class AActor;

@@ -11,6 +11,9 @@ UMultiHandleSliderWidget::UMultiHandleSliderWidget(const FObjectInitializer& Obj
 
     MinAngle = -100.0f;
     MaxAngle = 100.0f;
+
+    TargetTypesDataTable = nullptr;
+    PlayerActor = nullptr;
 }
 
 void UMultiHandleSliderWidget::SetUpPlayerActor(AActor* InPlayerActor)
@@ -66,6 +69,17 @@ void UMultiHandleSliderWidget::RemoveAllTargets()
 	TargetActors.Empty();
 	TargetLocations.Empty();
 	MultiHandleSlider->RemoveAllObjectives();
+}
+
+
+void UMultiHandleSliderWidget::ShowTargetTypes(const TArray<FName>& TargetTypes, bool bShow)
+{
+    MultiHandleSlider->ShowTargetTypes(TargetTypes, bShow);
+}
+
+void UMultiHandleSliderWidget::ClearHiddenTargetTypes()
+{
+    MultiHandleSlider->ClearHiddenTargetTypes();
 }
 
 bool UMultiHandleSliderWidget::ShouldBeVisible_Implementation() const

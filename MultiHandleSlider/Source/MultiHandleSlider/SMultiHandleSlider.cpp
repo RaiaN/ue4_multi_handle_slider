@@ -10,6 +10,8 @@ void SMultiHandleSlider::Construct(const SMultiHandleSlider::FArguments& InDecla
 
 	IndentHandle = InDeclaration._IndentHandle;
 	SliderBarColor = InDeclaration._SliderBarColor;
+
+    TargetTypesDataTable = nullptr;
 }
 
 int32 SMultiHandleSlider::OnPaint(const FPaintArgs& Args, const FGeometry& AllottedGeometry, const FSlateRect& MyCullingRect, FSlateWindowElementList& OutDrawElements, int32 LayerId, const FWidgetStyle& InWidgetStyle, bool bParentEnabled) const
@@ -60,10 +62,15 @@ int32 SMultiHandleSlider::OnPaint(const FPaintArgs& Args, const FGeometry& Allot
 
 	for (const FHandleInfo& HandleInfo : Values)
 	{
-		SliderGeometry = AllottedGeometry;
+        if (!HandleInfo.bShow)
+        {
+            continue;
+        }
+
+		// SliderGeometry = AllottedGeometry;
 
 		FTargetTypeDescription* TargetTypeDescription = TargetTypesDataTable->FindRow<FTargetTypeDescription>(HandleInfo.TargetType, "");
-		if (TargetTypeDescription)
+		if (TargetTypeDescription != nullptr)
 		{
 			const float SliderHandleOffset = HandleInfo.HandlePosition * SliderLength;
 			HandleTopLeftPoint = FVector2D(SliderHandleOffset + (0.5f * Indentation), SliderY - HalfHandleSize.Y + TargetTypeDescription->PaddingTop);
@@ -71,7 +78,7 @@ int32 SMultiHandleSlider::OnPaint(const FPaintArgs& Args, const FGeometry& Allot
 			// draw slider thumb
 			FSlateDrawElement::MakeBox(
 				OutDrawElements,
-				LayerId + TargetTypeDescription->LayerIDOffset,
+				LayerId + TargetTypeDescription->LayerID,
 				SliderGeometry.ToPaintGeometry(TargetTypeDescription->SliderImage.ImageSize, FSlateLayoutTransform(HandleTopLeftPoint)),
 				&TargetTypeDescription->SliderImage,
 				DrawEffects,
@@ -117,6 +124,7 @@ void SMultiHandleSlider::AddObjective(const FString& TargetID, const FName& Targ
 	FHandleInfo HandleInfo;
 	HandleInfo.TargetType = TargetType;
 	HandleInfo.HandlePosition = 0.0f;
+    HandleInfo.bShow = !HiddenTargetTypes.Contains(TargetType);
 	HandlesMap.Add(TargetID, HandleInfo);
 }
 
@@ -140,6 +148,56 @@ void SMultiHandleSlider::RemoveAllObjectives()
 {
 	HandlesMap.Reset();
 }
+
+void SMultiHandleSlider::ShowObjective(const FString& TargetID, bool bShow)
+{
+    if (HandlesMap.Contains(TargetID))
+    {
+        HandlesMap[TargetID].bShow = bShow;
+    }
+}
+
+void SMultiHandleSlider::ShowTargetTypes(const TArray<FName>& TargetTypes, bool bShow)
+{
+    if (bShow)
+    {
+        for (const FName& TargetType : TargetTypes)
+        {
+            HiddenTargetTypes.Remove(TargetType);
+        }
+    }
+    else
+    {
+        for (const FName& TargetType : TargetTypes)
+        {
+            HiddenTargetTypes.AddUnique(TargetType);
+        }
+    }
+
+    for (auto& Handle : HandlesMap)
+    {
+        if (HiddenTargetTypes.Contains(Handle.Value.TargetType))
+        {
+            Handle.Value.bShow = false;
+        }
+        else
+        {
+            Handle.Value.bShow = true;
+        }
+    }
+}
+
+void SMultiHandleSlider::ClearHiddenTargetTypes()
+{
+    HiddenTargetTypes.Empty();
+    
+    for (auto& Handle : HandlesMap)
+    {
+        Handle.Value.bShow = true;
+    }
+}
+
+
 
 bool SMultiHandleSlider::HasObjectives() const
 {

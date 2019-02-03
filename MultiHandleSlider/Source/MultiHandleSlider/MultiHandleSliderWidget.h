@@ -43,6 +43,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
 	void RemoveAllTargets();
 
+    UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
+    void ShowTargetTypes(const TArray<FName>& TargetTypes, bool bShow);
+
+    UFUNCTION(BlueprintCallable, Category = "Multi Handle Slider")
+    void ClearHiddenTargetTypes();
+
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     bool ShouldBeVisible() const;
 
@@ -53,6 +59,7 @@ public:
 	void Tick();
 
 	virtual void SynchronizeProperties() override;
+
 	void ReleaseSlateResources(bool bReleaseChildren);
 
 public:
@@ -75,7 +82,7 @@ protected:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 
 protected:
-	TSharedPtr< SMultiHandleSlider > MultiHandleSlider;
+	TSharedPtr<SMultiHandleSlider> MultiHandleSlider;
 
 private:
     void UpdateVisibility();
